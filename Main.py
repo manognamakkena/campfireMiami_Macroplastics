@@ -9,15 +9,18 @@ FPS = 120
 dt = 0
 
 # display variables
-screen_Width = 1080
+screen_Width = 1500
 screen_Height = 720
 screen = pygame.display.set_mode((screen_Width, screen_Height))
 pygame.display.set_caption("Macroplastics")
-image = pygame.image.load("bg.png").convert()
+image = pygame.image.load("bg_21.png").convert()
 image_Width = image.get_width()
+player = pygame.image.load("ivas.png").convert()
+
 # scrolling variables
-scroll = 0 
+scroll = 0
 tiles = math.ceil(screen_Width / image_Width) + 1
+print(tiles)
 
 running = True
 
@@ -27,9 +30,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    
+
     for i in range(0, tiles):
         screen.blit(image, (i * image_Width + scroll,0))
-        scroll -= 2
+    scroll -= 1.5
     
     if abs(scroll) > image_Width:
         scroll = 0
