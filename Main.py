@@ -1,35 +1,41 @@
 import pygame
+import math
 
 pygame.init()
-screen = pygame.display.set_mode((1280,720))
+
+# time variables
 clock = pygame.time.Clock()
-running = True
+FPS = 120
 dt = 0
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-player_color = (0, 100, 50)
-background = (0, 0, 120)
+
+# display variables
+screen_Width = 1080
+screen_Height = 720
+screen = pygame.display.set_mode((screen_Width, screen_Height))
+pygame.display.set_caption("Macroplastics")
+image = pygame.image.load("bg.png").convert()
+image_Width = image.get_width()
+# scrolling variables
+scroll = 0 
+tiles = math.ceil(screen_Width / image_Width) + 1
+
+running = True
 
 while running:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    for i in range(0, tiles):
+        screen.blit(image, (i * image_Width + scroll,0))
+        scroll -= 2
     
-    screen.fill(background)
+    if abs(scroll) > image_Width:
+        scroll = 0
 
-    pygame.draw.circle(screen, player_color, player_pos, 40)
+    pygame.display.update()
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player_pos.y -= 300 * dt 
-    if keys[pygame.K_s]:
-        player_pos.y += 300 * dt
-    if keys[pygame.K_a]:
-        player_pos.x -= 300 * dt
-    if keys[pygame.K_d]:
-        player_pos.x += 300 * dt    
-
-    pygame.display.flip()
-
-    dt = clock.tick(60) / 1000
+    dt = clock.tick(FPS) / 1000
 
 pygame.quit()
