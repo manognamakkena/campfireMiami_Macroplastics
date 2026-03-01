@@ -5,6 +5,7 @@ TO DOs:
   - death sequence - ricardo
     - death screen
 - sound effects - ricardo
-- title sequence - sebatsaian
+- title sequence: macroplastics + input tutorial - sebatsaian
+- add different titiles on different gamestates; death, damage, idk
   - dropdown animation (initial player_y = -40 > if player_y > rey/2 > multiy = 30 > then somehow stationary until input)
-- air glide sprite & effects - manu
+- air glide sprite & effects: particle effects for air glide/dodge of your choice for spacebar ability. fish sprite of choice for same move. - manu
