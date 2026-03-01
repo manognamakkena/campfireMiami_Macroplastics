@@ -67,7 +67,7 @@ class squid():
     def draw(self):
         self.screen.blit(pygame.transform.rotate(self.sprite, ((sq.hb.x%10000)/1000 - 5)*10/5 ), (sq.hb.x, sq.hb.y))
     def shoot(self):
-        if pygame.time.get_ticks() - self.sShootTS > self.fireRate:
+        if pygame.time.get_ticks() - self.sShootTS > self.firerate:
             self.bulLs.append(sBul(self.hb.x, self.hb.y))
             self.sShootTS = pygame.time.get_ticks()
         for i in self.bulLs:
@@ -76,6 +76,10 @@ class squid():
             #kills player
             if playerSprite.get_rect(center=(screx/2, player_y)).colliderect(i.Rect):
                 deatSound.play()
+                score = 0
+                for i in range(0, 10):
+                    screen.blit(deathmg, (0,0))
+       
             if i.Rect.x < 30:
                 sq.bulLs.remove(i)
                 
@@ -98,6 +102,7 @@ gunSprite = pygame.image.load("gun.png")
 pillar1 = pygame.image.load("p1.png")
 pillar2 = pygame.image.load("p2.png")
 pillar3 = pygame.image.load("p3.png")
+title_image = pygame.image.load("title.png")
 
 gojo = False
 game = True
@@ -122,7 +127,8 @@ shootTS = 0
 obsType = -1
 obsTS = 5000
 score = 0
-scoremsg = score + str(score)
+scoremsg = "Score: " + str(score)
+scroll1 = 0
 
 tiles = math.ceil(720 / bg.get_width()) + 1
 
@@ -142,10 +148,14 @@ while game:
         screen.blit(bg, (i * bg.get_width() + scroll,0))
     scroll -= 1.5
     
+    for i in range(0, 1):
+        screen.blit(title_image, (250 + scroll1, 200))
+    scroll1 -= 2
+    
     if abs(scroll) > bg.get_width():
         scroll = 0
     
-    screen.blit(font.render(scoremsg, True, (255, 255, 255)), (50, 50))
+    screen.blit(font.render("Score: " + str(score), True, (255, 255, 255)), (50, 50))
     
     if spawnB:
         obsType = random.randint(0, 2)
@@ -167,6 +177,9 @@ while game:
         if playerSprite.get_rect(center=(screx/2, player_y)).colliderect(sq.hb):
             pygame.mixer.music.stop()
             deatSound.play()
+            score = 0
+            for i in range(0, 10):
+                screen.blit(deathmg, (0,0))
         if sq.hb.x < 0 - 60:
             enemya.remove(sq)
             spawnB = True
